@@ -1,0 +1,30 @@
+---
+import PokeCard from "../components/poke-card.astro"
+import type { PokemonResult } from "../interfaces/pokemon-response.interface";
+
+// interface Props{
+//     data: PokemonResult[]
+// }
+
+// const url = 'https://pokeapi.co/api/v2/pokemon';
+
+// const response = await fetch(url);
+// const data = (await response.json()) as PokeApiReponse;
+// console.log(data);
+
+const { data } = Astro.props;
+---
+
+<section>
+    <div class="container">
+        {data.map( (pokemon: any) => <PokeCard name={pokemon.name} url={pokemon.url} ></PokeCard> )}
+    </div>
+</section>
+
+<style>
+    .container{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 5rem;
+    }
+</style>

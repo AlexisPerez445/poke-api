@@ -1,0 +1,83 @@
+---
+import type { Pokemon } from "../interfaces/pokemon-response.interface";
+
+const { name, url } = Astro.props;
+const urlPoke = `https://pokeapi.co/api/v2/pokemon/${name}`;
+const response = await fetch(urlPoke);
+const data = (await response.json()) as Pokemon;
+// console.log(data);
+---
+
+<div class=`card ${data.types[0].type.name}`>
+  <div>
+    <p class="p-title">{name}</p>
+    {data.types.map((type) => <p class="type">{type.type.name}</p>)}
+  </div>
+  <a href=`${name}`>
+    <img
+      transition:name=`${name}-image`
+      src={data.sprites.other?.["official-artwork"].front_default}
+      alt=`Pokemon-${data.name}`
+    />
+    <img
+      class="poke-ico"
+      src="/images/Pokeball-ico.webp"
+      alt=`Pokeball-ico`
+    />
+  </a>
+</div>
+
+<style>
+  a {
+    text-decoration: none;
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    gap: 1rem;
+    width: 100%;
+    min-height: 8.5rem;
+    border-radius: 10px;
+    /* background-color: red; */
+    padding: 1rem;
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .card img {
+    position: absolute;
+    top: -35px;
+    right: -35px;
+    width: 70%;
+    z-index: 50;
+  }
+
+  .poke-ico {
+    top: 35px !important;
+    right: -45px !important;
+    width: 80% !important;
+    z-index: 1 !important;
+    filter: opacity(0.2) drop-shadow(0 0 0 rgba(255, 255, 255, 0.371));
+  }
+
+  .p-title {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .type {
+    color: #f3f5f8;
+    background-color: rgba(255, 255, 255, 0.21);
+    margin: 0;
+    padding: 0.6rem;
+    border-radius: 10px;
+    margin-bottom: 0.3rem;
+    width: fit-content;
+    text-transform: capitalize;
+  }
+</style>

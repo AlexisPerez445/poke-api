@@ -1,0 +1,93 @@
+---
+import type { Ability } from "../interfaces/pokemon-response.interface";
+
+const { height, weight, id, base_experience, abilities } = Astro.props;
+const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/${id}.ogg`;
+
+---
+
+<div class="stats-container">
+  <h3>Pokemon Info</h3>
+  <div>
+    <p>#</p>
+    <p>{id}</p>
+  </div>
+
+  <div>
+    <p>height</p>
+    <p>{height}</p>
+  </div>
+
+  <div>
+    <p>weight</p>
+    <p>{weight}</p>
+  </div>
+
+  <div>
+    <p>base experience</p>
+    <p>{base_experience}</p>
+  </div>
+
+  <div>
+    <p>Abilities</p>
+    <div class="abilitie-data">
+    {
+      abilities.map((abilitie: Ability) => (
+          <p>{abilitie.ability.name }</p>
+        ))
+    }
+    </div>
+  </div>
+
+  <div>
+    <audio controls>
+      <source src={audioSrc} type="audio/ogg" />
+    </audio>
+  </div>
+</div>
+
+<style>
+  .stats-container {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--surface-card);
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border-radius: 10px;
+    flex: 1;
+  }
+
+  .stats-container h3 {
+    text-align: center;
+  }
+
+  .stats-container p{
+    text-transform: capitalize;
+  }
+
+  .stats-container div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+  }
+
+  .stats-container div:last-child{
+    justify-content: center;
+  }
+
+  .abilitie-data{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+
+  .abilitie-data p{
+    background-color: rgb(241 243 244);
+    padding: 0.6rem;
+    border-radius: 10px;
+    width: fit-content;
+  }
+</style>

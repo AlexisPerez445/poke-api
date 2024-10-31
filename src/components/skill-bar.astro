@@ -1,0 +1,79 @@
+---
+import type { Stat } from "../interfaces/pokemon-response.interface";
+
+const { stats, type } = Astro.props;
+// console.log(stats);
+---
+
+<div class="skill-container">
+  <h3>Stats</h3>
+  {
+    stats.map((stat: Stat) => (
+      <li>
+        <p>{stat.stat.name}</p>
+        <span class="bar">
+          <span
+            style={"width:" + stat.base_stat + "px;"}
+            class={"html " + type}
+          />
+        </span>
+        <p>{stat.base_stat}</p>
+      </li>
+    ))
+  }
+</div>
+
+<style>
+  .skill-container {
+    width: 100%;
+    padding: 1rem;
+    padding-left: 2rem;
+    background-color: var(--surface-card);
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border-radius: 10px;
+    flex: 2;
+  }
+
+  .skill-container h3 {
+    text-align: center;
+  }
+
+  .skill-container li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .skill-container li p {
+    flex: 1;
+    text-transform: capitalize;
+  }
+
+  .bar {
+    background-color: var(--surface-hover);
+    display: block;
+    flex: 5;
+    height: 20px;
+    border: 1px solid var(--surface-border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .skill-container li p {
+    flex: 1;
+  }
+
+  .bar span {
+    height: 20px;
+    float: left;
+    /* background-color: red; */
+  }
+</style>

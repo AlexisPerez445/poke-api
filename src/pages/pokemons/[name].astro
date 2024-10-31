@@ -1,0 +1,140 @@
+---
+import type { GetStaticPaths } from "astro";
+import type {
+  PokeApiReponse,
+  Pokemon,
+} from "../../interfaces/pokemon-response.interface";
+
+import MainLayout from "../../layouts/main-layout.astro";
+import SkillBar from "../../components/skill-bar.astro";
+import Evolutions from "../../components/evolutions.astro";
+import PokeData from "../../components/poke-data.astro";
+
+export const getStaticPaths = (async () => {
+  const url = "https://pokeapi.co/api/v2/pokemon?limit=151";
+  const responseList = await fetch(url);
+  const pokeList = (await responseList.json()) as PokeApiReponse;
+
+  return pokeList.results.map((pokemon) => ({
+    params: { name: pokemon.name },
+    props: { name: pokemon.name, url: pokemon.url },
+  }));
+}) satisfies GetStaticPaths;
+
+const { name } = Astro.params;
+const { url } = Astro.props;
+const id = url.split("/").at(-2);
+
+const response = await fetch(url);
+const data = (await response.json()) as Pokemon;
+// console.log(data);
+---
+
+<MainLayout title={name}>
+  <section>
+    <div class=`header-background ${data.types[0].type.name}`>
+      <img
+        class="pokemon-image"
+        src={data.sprites.other?.["official-artwork"].front_default}
+        alt=`Pokemon-${data.name}`
+        transition:name=`${name}-image`
+      />
+    </div>
+  </section>
+
+  <section>
+    <div class="poke-div"></div>
+    <div class="container">
+
+      <h1 class="text-center">{name}</h1>
+      <div class="types-container">
+        {
+          data.types.map((type) => (
+            <p class={data.types[0].type.name + " type"}>{type.type.name}</p>
+          ))
+        }
+      </div>
+
+      <div class="stats-container">
+        <SkillBar stats={data.stats} type={data.types[0].type.name} />
+
+        <PokeData
+          height={data.height}
+          id={data.id}
+          weight={data.weight}
+          base_experience={data.base_experience}
+          abilities={ data.abilities }
+        />
+      </div>
+
+      <div class="evolution-container">
+        <Evolutions id={id} />
+      </div>
+
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  section:nth-child(1) {
+    padding: 0;
+  }
+
+  h1{
+    text-transform: capitalize;
+  }
+
+  .evolution-container {
+    margin-top: 2rem;
+  }
+
+  .header-background {
+    text-align: center;
+    height: 40dvh;
+    position: relative;
+  }
+
+  .pokemon-image {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3rem;
+    margin-inline: auto;
+    width: fit-content;
+    width: 15%;
+    z-index: 10 !important;
+    /* translate; transform: translateY(-20rem); */
+  }
+
+  .poke-div {
+    height: 5.5dvh;
+    background-color: var(--surface-ground);
+    transform: translateY(-5rem);
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+  }
+
+  .type {
+    color: #f3f5f8;
+    margin: 0;
+    padding: 0.6rem;
+    border-radius: 10px;
+    margin-bottom: 0.3rem;
+    width: fit-content;
+    text-transform: capitalize;
+  }
+
+  .types-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .stats-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+</style>

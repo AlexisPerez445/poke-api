@@ -1,0 +1,133 @@
+---
+import type {
+  EvolutionResponse,
+  SpecieResponse,
+} from "../interfaces/pokemon-response.interface";
+
+const { id } = Astro.props;
+const urlSpecie = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
+
+const response = await fetch(urlSpecie);
+const data = (await response.json()) as SpecieResponse;
+
+const evoResponse = await fetch(data.evolution_chain.url);
+const evolutionData = (await evoResponse.json()) as EvolutionResponse;
+
+const infoEvolutions: any = [];
+
+if (evolutionData.chain.evolves_to[0]) {
+  // BASE POKEMON
+  const idPokeBase = evolutionData.chain.species.url.split("/").at(-2);
+  infoEvolutions.push({
+    name: evolutionData.chain.species.name,
+    image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${idPokeBase}.png`,
+  });
+
+  // FIST EVOLUTION
+  const idPokeFirst = evolutionData.chain.evolves_to[0].species.url
+    .split("/")
+    .at(-2);
+  infoEvolutions.push({
+    name: evolutionData.chain.evolves_to[0].species.name,
+    image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${idPokeFirst}.png`,
+  });
+
+  // SECOND EVOLUTION
+  if (evolutionData.chain.evolves_to[0].evolves_to[0]) {
+    const idPokeSecond =
+      evolutionData.chain.evolves_to[0].evolves_to[0].species.url
+        .split("/")
+        .at(-2);
+    infoEvolutions.push({
+      name: evolutionData.chain.evolves_to[0].evolves_to[0].species.name,
+      image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${idPokeSecond}.png`,
+    });
+  }
+}
+---
+
+<div class="evolution-container">
+  <h3>Evolutions</h3>
+
+  <div class="evolution-card">
+    {
+      () => {
+        if (infoEvolutions.length != 0) {
+          return infoEvolutions.map((data: any) => (
+            <div class="info-evolution">
+              <div class="poke-data">
+                <p>{data.name}</p>
+                <img class="poke-image" src={data.image} alt={data.name} />
+              </div>
+              <img
+                class="arrow-image"
+                src="../../public/images/right-arrow.webp"
+                alt="arrow-icon"
+              />
+            </div>
+          ));
+        } else {
+          return <p>This pokemon doesn't have evolutions</p>
+        }
+      }
+    }
+  </div>
+</div>
+
+<style>
+  .evolution-container {
+    padding: 1rem;
+    width: 100%;
+    background-color: var(--surface-card);
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border-radius: 10px;
+  }
+
+  .evolution-container .evolution-card {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .evolution-container h3 {
+    text-align: center;
+  }
+
+  .info-evolution {
+    display: flex;
+    align-items: center;
+  }
+
+  .info-evolution p {
+    text-align: center;
+  }
+
+  .info-evolution .poke-image {
+    width: 40%;
+  }
+
+  .poke-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .poke-data p {
+    text-transform: capitalize !important;
+  }
+
+  .arrow-image {
+    display: inline;
+    width: 15%;
+    height: 2.5rem;
+  }
+
+  .info-evolution:last-child .arrow-image {
+    display: none;
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+interface Props {
+  lastPage: number;
+  currentPage: number;
+  next?: string;
+  prev?: string;
+}
+
+const { lastPage, currentPage, next, prev } = Astro.props;
+const pages = [];
+for (let i = 0; i < lastPage; i++) {
+  pages.push(i + 1);
+}
+---
+
+<div class="container">
+  <ul class="pagination">
+    <li>
+      <a href={prev}>Prev</a>
+    </li>
+    {
+      pages.map((page: number) => (
+        <li class:list={
+          [
+            {active: page === currentPage}
+          ]
+        }>
+          <a href={`/pokemons/${page}`}>{ page }</a>
+        </li>
+      ))
+    }
+    <li>
+      <a href={next}>Next</a>
+    </li>
+  </ul>
+</div>
+
+<style>
+  .pagination {
+    /* position: relative; */
+    height: 60px;
+    background: var(--surface-card);
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+    border-radius: 10px;
+    width: 100%;
+  }
+  .pagination li {
+    list-style-type: none;
+    display: inline-block;
+  }
+  .pagination li a {
+    position: relative;
+    padding: 20px 25px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+  }
+  .pagination li a:hover,
+  .pagination li.active a {
+    background: rgba(209, 209, 209, 0.368);
+  }
+</style>

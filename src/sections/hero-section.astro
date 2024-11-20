@@ -2,42 +2,48 @@
 import NavBar from "../components/nav-bar.astro";
 ---
 
+<NavBar />
 <section>
-  <div class="container">
-    <NavBar />
+  <div class="container data-container">
+    <div class="info">
+      <h1>Pokédex</h1>
+      <p>
+        Una aplicación construida con Astro y utilizando la PokéAPI permite
+        crear una experiencia web ligera. Astro, un framework enfocado en la
+        velocidad y la eficiencia, genera sitios estáticos optimizados para el
+        rendimiento, lo que reduce los tiempos de carga y mejora el SEO. Al
+        integrar la PokéAPI, se obtiene acceso a datos dinámicos sobre Pokémon,
+        como estadísticas, tipos, evoluciones y más
+      </p>
+      <a href="/pokemons/1">
+        <button type="button" class="btn">
+          <strong>POKEMON LIST</strong>
+          <div id="container-stars">
+            <div id="stars"></div>
+          </div>
 
-    <div class="data-container">
-      <div class="info">
-        <h1>Pokémon API</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis
-          blanditiis ex, labore autem recusandae
-        </p>
-        <a href="/pokemons/1">
-          <button type="button" class="btn">
-            <strong>POKEMON LIST</strong>
-            <div id="container-stars">
-              <div id="stars"></div>
-            </div>
-
-            <div id="glow">
-              <div class="circle"></div>
-              <div class="circle"></div>
-            </div>
-          </button>
-        </a>
-      </div>
-
-      <img
-        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png"
-        alt="pokemon-image"
-      />
+          <div id="glow">
+            <div class="circle"></div>
+            <div class="circle"></div>
+          </div>
+        </button>
+      </a>
     </div>
+
+    <img
+      src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png"
+      alt="pokemon-image"
+      width="800px"
+      height="800px"
+    />
   </div>
 </section>
 
 <style>
   section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100dvh;
     width: 100dvw;
     background: linear-gradient(
@@ -53,13 +59,59 @@ import NavBar from "../components/nav-bar.astro";
 
   .data-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column-reverse;
+    justify-content: center;
     align-items: center;
-    width: 100%;
+    padding: 0 1rem;
+    /* height: 100dvh; */
   }
 
   .data-container img {
-    width: 90%;
+    width: 80%;
+    height: auto;
+  }
+
+  .info {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .info p {
+    text-wrap: balance;
+  }
+
+  /* PC - TABLET */
+  @media (min-width: 1024px) {
+    section {
+      height: 100dvh;
+      width: 100dvw;
+      background: linear-gradient(
+        290deg,
+        rgb(159, 198, 121),
+        rgb(65, 150, 71) 50%,
+        white 50%,
+        white
+      );
+      box-sizing: border-box;
+      padding-top: 0;
+    }
+
+    .data-container {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0;
+    }
+
+    .data-container img {
+      flex: 2;
+      width: 80%;
+    }
+
+    .info {
+      flex: 1;
+    }
   }
 
   .btn {

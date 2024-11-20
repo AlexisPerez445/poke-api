@@ -1,5 +1,5 @@
 ---
-import PokeCard from "../components/poke-card.astro"
+import PokeCard from "../components/poke-card.astro";
 import type { PokemonResult } from "../interfaces/pokemon-response.interface";
 
 // interface Props{
@@ -16,15 +16,27 @@ const { data } = Astro.props;
 ---
 
 <section>
-    <div class="container">
-        {data.map( (pokemon: any) => <PokeCard name={pokemon.name} url={pokemon.url} ></PokeCard> )}
-    </div>
+  <div class="container">
+    {
+      data.map((pokemon: any) => (
+        <PokeCard name={pokemon.name} url={pokemon.url} />
+      ))
+    }
+  </div>
 </section>
 
 <style>
-    .container{
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 5rem;
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 5rem;
+    padding: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      grid-template-columns: repeat(4, 1fr);
+      padding: 0;
     }
+  }
 </style>

@@ -5,7 +5,6 @@ import MainLayout from "../../layouts/main-layout.astro";
 import PokeGridSection from "../../sections/poke-grid-section.astro";
 import Paginator from "../../components/paginator.astro";
 import type { PokeApiReponse } from "../../interfaces/pokemon-response.interface";
-import NavBar from "../../components/nav-bar.astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
   const url = "https://pokeapi.co/api/v2/pokemon?limit=151";
@@ -18,9 +17,6 @@ const { page } = Astro.props;
 ---
 
 <MainLayout title="Pokemon | List">
-  <div class="container">
-    <NavBar />
-  </div>
   <PokeGridSection data={page.data} />
   <Paginator
     lastPage={page.lastPage}

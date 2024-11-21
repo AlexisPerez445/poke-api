@@ -17,6 +17,15 @@ const { page } = Astro.props;
 ---
 
 <MainLayout title="Pokemon | List">
+  <div class="logo-container">
+    <a href="/">
+      <img
+        class="logo"
+        src="/images/pokemon-logo-pokemon-icon-transparent-free-png.webp"
+        alt="pokemon-logo"
+      />
+    </a>
+  </div>
   <PokeGridSection data={page.data} />
   <Paginator
     lastPage={page.lastPage}
@@ -25,3 +34,18 @@ const { page } = Astro.props;
     prev={page.url.prev}
   />
 </MainLayout>
+
+<style>
+  .logo-container {
+    text-align: center;
+  }
+  .logo {
+    width: 70%;
+  }
+
+  @media (min-width: 1024px) {
+    .logo {
+      width: 20%;
+    }
+  }
+</style>

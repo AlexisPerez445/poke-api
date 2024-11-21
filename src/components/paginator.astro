@@ -7,9 +7,22 @@ interface Props {
 }
 
 const { lastPage, currentPage, next, prev } = Astro.props;
-const pages = [];
-for (let i = 0; i < lastPage; i++) {
-  pages.push(i + 1);
+const firstPage = 1;
+const range = 1;
+const pages = getVisiblePages();
+// for (let i = 0; i < lastPage; i++) {
+//   pages.push(i + 1);
+// }
+
+function getVisiblePages() {
+  let startPage = Math.max(currentPage - range, firstPage);
+  let endPage = Math.min(currentPage + range, lastPage);
+
+  let pages = [];
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
+  return pages;
 }
 ---
 
@@ -43,8 +56,9 @@ for (let i = 0; i < lastPage; i++) {
     justify-content: center;
     backdrop-filter: blur(3px);
     border-radius: 10px;
-    width: 50%;
-    margin: 0 auto;
+    width: 100%;
+    margin: 1rem auto;
+    padding: 0;
   }
   .pagination li {
     list-style-type: none;
@@ -65,17 +79,8 @@ for (let i = 0; i < lastPage; i++) {
 
   @media (min-width: 1024px) {
     .pagination {
-      height: 60px;
       background: var(--surface-card);
-      box-shadow:
-        0 1px 3px 0 rgba(0, 0, 0, 0.1),
-        0 1px 2px -1px rgba(0, 0, 0, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(3px);
-      border-radius: 10px;
-      width: 100%;
+      width: fit-content;
     }
   }
 </style>

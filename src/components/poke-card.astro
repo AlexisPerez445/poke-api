@@ -13,18 +13,20 @@ const data = (await response.json()) as Pokemon;
     <p class="p-title">{name}</p>
     {data.types.map((type) => <p class="type">{type.type.name}</p>)}
   </div>
-  <a href=`${name}`>
-    <img
-      transition:name=`${name}-image`
-      src={data.sprites.other?.["official-artwork"].front_default}
-      alt=`Pokemon-${data.name}`
-    />
-    <img
-      class="poke-ico"
-      src="/images/Pokeball-ico.webp"
-      alt=`Pokeball-ico`
-    />
-  </a>
+  <div>
+    <a href=`${name}`>
+      <img
+        transition:name=`${name}-image`
+        src={data.sprites.other?.["official-artwork"].front_default}
+        alt=`Pokemon-${data.name}`
+      />
+      <img
+        class="poke-ico"
+        src="/images/Pokeball-ico.webp"
+        alt=`Pokeball-ico`
+      />
+    </a>
+  </div>
 </div>
 
 <style>
@@ -34,6 +36,7 @@ const data = (await response.json()) as Pokemon;
 
   .card {
     display: flex;
+    flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
     position: relative;
@@ -41,8 +44,8 @@ const data = (await response.json()) as Pokemon;
     width: 100%;
     min-height: 8.5rem;
     border-radius: 10px;
-    /* background-color: red; */
     padding: 1rem;
+    box-sizing: border-box;
     box-shadow:
       0 1px 3px 0 rgba(0, 0, 0, 0.1),
       0 1px 2px -1px rgba(0, 0, 0, 0.1);
@@ -50,18 +53,36 @@ const data = (await response.json()) as Pokemon;
 
   .card img {
     position: absolute;
-    top: -35px;
-    right: -35px;
-    width: 70%;
+    top: -65px;
+    right: 0;
+    width: 50%;
     z-index: 50;
   }
 
   .poke-ico {
-    top: 35px !important;
-    right: -45px !important;
+    top: -10px !important;
+    right: -5px !important;
     width: 80% !important;
     z-index: 1 !important;
     filter: opacity(0.2) drop-shadow(0 0 0 rgba(255, 255, 255, 0.371));
+  }
+
+  @media (min-width: 1024px) {
+    .card img {
+      position: absolute;
+      top: -35px;
+      right: -35px;
+      width: 70%;
+      z-index: 50;
+    }
+
+    .poke-ico {
+      top: 35px !important;
+      right: -45px !important;
+      width: 80% !important;
+      z-index: 1 !important;
+      filter: opacity(0.2) drop-shadow(0 0 0 rgba(255, 255, 255, 0.371));
+    }
   }
 
   .p-title {

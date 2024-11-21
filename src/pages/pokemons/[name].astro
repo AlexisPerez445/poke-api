@@ -45,7 +45,6 @@ const data = (await response.json()) as Pokemon;
   <section>
     <div class="poke-div"></div>
     <div class="container">
-
       <h1 class="text-center">{name}</h1>
       <div class="types-container">
         {
@@ -63,14 +62,13 @@ const data = (await response.json()) as Pokemon;
           id={data.id}
           weight={data.weight}
           base_experience={data.base_experience}
-          abilities={ data.abilities }
+          abilities={data.abilities}
         />
       </div>
 
       <div class="evolution-container">
         <Evolutions id={id} />
       </div>
-
     </div>
   </section>
 </MainLayout>
@@ -80,14 +78,9 @@ const data = (await response.json()) as Pokemon;
     padding: 0;
   }
 
-  h1{
+  h1 {
     text-transform: capitalize;
   }
-
-  .evolution-container {
-    margin-top: 2rem;
-  }
-
   .header-background {
     text-align: center;
     height: 40dvh;
@@ -101,9 +94,8 @@ const data = (await response.json()) as Pokemon;
     bottom: -3rem;
     margin-inline: auto;
     width: fit-content;
-    width: 15%;
+    width: 50%;
     z-index: 10 !important;
-    /* translate; transform: translateY(-20rem); */
   }
 
   .poke-div {
@@ -128,13 +120,39 @@ const data = (await response.json()) as Pokemon;
     display: flex;
     justify-content: center;
     gap: 0.5rem;
+    padding: 0 1rem;
     align-items: center;
     margin-bottom: 2rem;
   }
 
   .stats-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .evolution-container {
+    margin-top: 2rem;
+    padding: 0 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    .pokemon-image {
+      bottom: -3rem;
+      width: 15%;
+    }
+    .stats-container {
+      flex-direction: row;
+      padding: 0;
+    }
+
+    .types-container {
+      padding: 0;
+    }
+
+    .evolution-container {
+      padding: 0;
+    }
   }
 </style>
